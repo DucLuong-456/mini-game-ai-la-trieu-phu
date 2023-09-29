@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Giao diện Ai là triệu phú</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    .question {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .answers {
+      margin-bottom: 20px;
+    }
+    
+    .answer {
+      display: inline-block;
+      margin-right: 10px;
+      padding: 5px 10px;
+      background-color: #f2f2f2;
+      cursor: pointer;
+    }
+    
+    .answer:hover {
+      background-color: #e6e6e6;
+    }
+    
+    .answer.selected {
+      background-color: #b3d9ff;
+    }
+    
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .answer-input{
+        margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ai là triệu phú</h1>
+  
+  <div class="question">Câu hỏi: <%=question.question%></div>
+  <div class="answers">
+    <div class="answer"><%=question.answers[0]%></div>
+    <div class="answer"><%=question.answers[1]%></div>
+    <div class="answer"><%=question.answers[2]%></div>
+    <div class="answer"><%=question.answers[3]%></div>
+  </div>
+  
+  <form method="POST" action="/test">
+      <div class="answer-input">
+        <label for="name-input">Tên người trả lời:</label>
+        <br>
+        <input type="text" id="name-input" name="name">
+      </div>
+      <div class="answer-input">
+        <label for="answer-input">Đáp án:</label>
+        <br>
+        <input type="text" id="answer-input" name="answer">
+      </div>
+      <div class="answer-input">
+        <label for="prediction-input">Số người dự đoán đúng:</label>
+        <br>
+        <input type="text" id="prediction-input" name="people_answer_true">
+        <input type="text" hidden name="question_id" value="<%=question._id%>">
+      </div>
+      <input type="submit" value="Gửi">
+  </form>
+</body>
+<script>
+    
+</script>
+</html>
