@@ -1,7 +1,10 @@
 const router = require('express').Router()
-const {getQuestion,handleGame} = require('../controller/test')
-
-router.route('/test')
+const {getQuestion,createUser,handleGame,getgiaodien} = require('../controller/test')
+router.route('/abc')
+    .get(getgiaodien)  
+router.route('/game')
     .get(getQuestion)  
-    .post(handleGame)
+    .post(createUser)
+router.route('/handle/:id')
+    .get(handleGame)  
 module.exports = router

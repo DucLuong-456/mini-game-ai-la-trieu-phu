@@ -43,16 +43,16 @@
 </head>
 <body>
   <h1>Ai là triệu phú</h1>
-  
-  <div class="question">Câu hỏi: <%=question.question%></div>
+  <div class="question" id="question_number">Câu hỏi:</div>
   <div class="answers">
-    <div class="answer"><%=question.answers[0]%></div>
-    <div class="answer"><%=question.answers[1]%></div>
-    <div class="answer"><%=question.answers[2]%></div>
-    <div class="answer"><%=question.answers[3]%></div>
+    <div class="answer"></div>
+    <div class="answer"></div>
+    <div class="answer"></div>
+    <div class="answer"></div>
   </div>
   
-  <form method="POST" action="/test">
+  
+  <form method="POST" action="/game">
       <div class="answer-input">
         <label for="name-input">Tên người trả lời:</label>
         <br>
@@ -67,12 +67,61 @@
         <label for="prediction-input">Số người dự đoán đúng:</label>
         <br>
         <input type="text" id="prediction-input" name="people_answer_true">
-        <input type="text" hidden name="question_id" value="<%=question._id%>">
-      </div>
-      <input type="submit" value="Gửi">
+        <input type="text" id="question_id" name="question_id" hidden>
+
+         </div>
+      <input type="submit" value="Gửi" id="btn-submit">
   </form>
+  <div id="kq"></div>
 </body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    
+  
+    var question_number = document.getElementById('question_number')
+    var answers = document.querySelectorAll('.answer')
+    var question_id_DOM = document.getElementById('question_id')
+    var kq = document.getElementById('kq')
+    let i=0 // danh so cau hoi
+    let question_id
+
+  const result = async ()=>{
+    let result= await axios.get(`http://localhost:3000/handle/${question_id}`)
+    console.log(result)
+    kq.innerHTML = result.data.msg
+  }
+
+  const question_print = async () => {
+    try {
+      
+      let res= await axios.get('http://localhost:3000/game')
+      //console.log(res)
+      if(i< res.data.questions.length){
+        question_number.innerHTML = "Câu hỏi:"+ res.data.questions[i].question
+        res.data.questions[i].answers.map((item,index)=>{
+        answers[index].innerHTML= item
+      })
+      question_id_DOM.value= res.data.questions[i]._id;
+      question_id=res.data.questions[i]._id;
+      result()
+      i++;
+      }
+      else{
+        await clearInterval(interval)
+        return alert("Bạn đã hoàn thành tất cả câu hỏi của trò chơi!")
+        
+      }
+    } catch (error) {
+      console.error(error)
+    }
+}
+//khoi tao phien dau tien
+question_print() 
+
+
+//chay phien
+const interval= setInterval(()=>{question_print()},7000)
+
+//delay 3s khi ket thuc 1 phien va hiển thị người chiến thắng mỗi phiên
+
 </script>
 </html>
